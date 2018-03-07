@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<context:property-placeholder location="classpath:conf/resource.properties" />
+	<context:component-scan base-package="com.wtwd.wesker.controller" />
+	<mvc:annotation-driven />
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/admin/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<!-- 配置资源映射 不加的话样式会给拦截-->
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
+	<mvc:resources location="/assets/css/" mapping="/assets/css/**"></mvc:resources>
+	<mvc:resources location="/assets/css/images/" mapping="/assets/css/images/**"></mvc:resources>
+	<mvc:resources location="/assets/font/" mapping="/assets/font/**"></mvc:resources>
+	<mvc:resources location="/assets/images/gallery/" mapping="/assets/images/gallery/**"></mvc:resources>
+	<mvc:resources location="/assets/js/" mapping="/assets/js/**"></mvc:resources>
+	<mvc:resources location="/assets/avatars/" mapping="/assets/avatars/**"></mvc:resources>
+	 
+	<!-- 引用dubbo服务 -->
+	<dubbo:application name="wesker-manager-web"/>
+	<!-- 家里的网址 二选一打开 -->
+	<!-- <dubbo:registry protocol="zookeeper" address="192.168.193.129:2181"/> -->
+	<!-- 公司的网址  二选一打开-->
+	<dubbo:registry protocol="zookeeper" address="192.168.237.131:2181"/>
+	<dubbo:reference interface="com.wtwd.wesker.service.UserService" id="userService" />
+
+	
+</beans>
